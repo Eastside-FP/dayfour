@@ -10,7 +10,7 @@ import Data.Char(intToDigit)
 -- a positive integer
 
 factorial :: (Eq p, Num p) => p -> p
-factorial n = 0 -- replace me
+factorial n = if n == 1 then 1 else n*factorial(n-1)
 
 
 -------
@@ -31,7 +31,11 @@ factorial n = 0 -- replace me
 -- You may also need list concatenation, `++`.
 
 toDigits :: Int -> [Char]
-toDigits num = "replace me"
+toDigits 0=[]
+toDigits num = toDigits(truncRes) ++ [intToDigit remainder]
+  where
+    (truncRes, remainder) = divMod num 10
+
 
 
 -------
@@ -40,8 +44,11 @@ toDigits num = "replace me"
 -- Write a recursive function that counts the number of times
 -- a given value occurs in a list
 
-count :: (Eq a, Num p) => a -> [a] -> p
-count element list = 0 -- replace me
+--count :: (Eq a, Num p) => a -> [a] -> p
+count element [] = 0
+count element (x:xs) = if (element==x) then 1+count element xs else count element xs
+
+
 
 -------
 -- 4 --
@@ -52,8 +59,10 @@ count element list = 0 -- replace me
 -- help to write it as two functions. (Hint: you only
 -- need to traverse the list once)
 
-evensEqualOdds :: [ Integer ] -> Bool
-evensEqualOdds numbers = False -- replace me
+--evensEqualOdds :: [ Integer ] -> Bool
+evensEqualOdds numbers = if adder numbers==0 then True else False
+adder []=0  
+adder (h:s:xs) = h-s + adder xs
 
 -------
 -- 5 --
@@ -67,8 +76,9 @@ evensEqualOdds numbers = False -- replace me
 --
 -- Implement `zipper` as a recursive function
 
-zipper :: [a] -> [b] -> [(a, b)]
-zipper l1 l2 = []  --replace me
+--zipper :: [a] -> [b] -> [(a, b)]
+zipper [] [] = []
+zipper (l1:xs) (l2:xss) = (l1, l2):zipper xs xss
 
 
 
@@ -76,7 +86,7 @@ zipper l1 l2 = []  --replace me
 -----------------------------------
 -- don't change below this point --
 
-test :: (Eq a, Show a) => [Char] -> a -> a -> IO ()
+-- test :: (Eq a, Show a) => [Char] -> a -> a -> IO ()
 test testNo got expected
   | got == expected =
       print (testNo ++ " OK   got expected value " ++ show expected)
