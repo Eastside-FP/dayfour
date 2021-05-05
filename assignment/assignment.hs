@@ -10,7 +10,8 @@ import Data.Char(intToDigit)
 -- a positive integer
 
 factorial :: (Eq p, Num p) => p -> p
-factorial n = 0 -- replace me
+factorial 1 = 1
+factorial n = n * factorial (n-1)
 
 
 -------
@@ -31,7 +32,10 @@ factorial n = 0 -- replace me
 -- You may also need list concatenation, `++`.
 
 toDigits :: Int -> [Char]
-toDigits num = "replace me"
+toDigits n = if(n < 10) then (intToDigit n):[] else toDigits tr ++ (intToDigit r):[]
+  where (tr, r) = divMod n 10 
+  --tr is truncated result, r is remainder. I originally had 'tres' and 'rem' but it threw an error 
+  --also i had to make the chars into [char] by using :[]. This feels hacky so I was wondering if there's a nicer way
 
 
 -------
@@ -41,7 +45,9 @@ toDigits num = "replace me"
 -- a given value occurs in a list
 
 count :: (Eq a, Num p) => a -> [a] -> p
-count element list = 0 -- replace me
+count element [] = 0
+count element (x:xs) = if (element == x) then (1 + count element xs) else (0 + count element xs)
+--i'm not sure if the parentheses are required but they make the code easier for me to read
 
 -------
 -- 4 --
@@ -52,8 +58,12 @@ count element list = 0 -- replace me
 -- help to write it as two functions. (Hint: you only
 -- need to traverse the list once)
 
-evensEqualOdds :: [ Integer ] -> Bool
-evensEqualOdds numbers = False -- replace me
+evensEqualOdds :: [ Int ] -> Bool
+evensEqualOdds numbers = if(alternateSumList numbers == 0) then True else False
+
+alternateSumList :: [ Int ] -> Int
+alternateSumList [] = 0
+alternateSumList (hd : tl : rest) = hd - tl + alternateSumList rest
 
 -------
 -- 5 --
@@ -68,7 +78,8 @@ evensEqualOdds numbers = False -- replace me
 -- Implement `zipper` as a recursive function
 
 zipper :: [a] -> [b] -> [(a, b)]
-zipper l1 l2 = []  --replace me
+zipper [] [] = []
+zipper (l1h : l1rest) (l2h : l2rest) = (l1h, l2h) : zipper l1rest l2rest
 
 
 
