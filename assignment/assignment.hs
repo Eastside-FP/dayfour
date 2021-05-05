@@ -9,8 +9,9 @@ import Data.Char(intToDigit)
 -- Write a recusive algorithm that returns the factorial of
 -- a positive integer
 
-factorial :: (Eq p, Num p) => p -> p
-factorial n = 0 -- replace me
+--factorial :: (Eq p, Num p) => p -> p
+factorial 1 = 1
+factorial n = n * factorial (n - 1)
 
 
 -------
@@ -31,7 +32,12 @@ factorial n = 0 -- replace me
 -- You may also need list concatenation, `++`.
 
 toDigits :: Int -> [Char]
-toDigits num = "replace me"
+
+toDigits 0 = []
+toDigits num = toDigits(truncatedResult) ++ [digit]
+  where
+    (truncatedResult, remainder) = divMod num 10
+    digit = intToDigit(remainder)
 
 
 -------
@@ -40,8 +46,10 @@ toDigits num = "replace me"
 -- Write a recursive function that counts the number of times
 -- a given value occurs in a list
 
-count :: (Eq a, Num p) => a -> [a] -> p
-count element list = 0 -- replace me
+--count :: (Eq a, Num p) => a -> [a] -> p
+
+count element [] = 0
+count element (x : xs) = fromEnum (x == element) + count element xs
 
 -------
 -- 4 --
@@ -52,8 +60,16 @@ count element list = 0 -- replace me
 -- help to write it as two functions. (Hint: you only
 -- need to traverse the list once)
 
-evensEqualOdds :: [ Integer ] -> Bool
-evensEqualOdds numbers = False -- replace me
+--evensEqualOdds :: [ Integer ] -> Bool
+
+--not sure how to only traverse the list once
+evensEqualOdds numbers = (evenSum numbers == oddSum numbers)
+
+evenSum [] = 0
+evenSum (hd : scnd : rest) = hd + evenSum rest
+
+oddSum [] = 0
+oddSum (hd : scnd : rest) = scnd + oddSum rest
 
 -------
 -- 5 --
@@ -67,8 +83,9 @@ evensEqualOdds numbers = False -- replace me
 --
 -- Implement `zipper` as a recursive function
 
-zipper :: [a] -> [b] -> [(a, b)]
-zipper l1 l2 = []  --replace me
+--zipper :: [a] -> [b] -> [(a, b)]
+zipper [] [] = []
+zipper (x : xs) (z : zs) = (x, z) : zipper xs zs
 
 
 
@@ -90,10 +107,10 @@ main = do
   test "1c" (factorial 5)  120
   test "1d" (factorial 10) 3628800
 
-  test "2a" (toDigits 0)    "0"
-  test "2b" (toDigits 7)    "7"
-  test "2c" (toDigits 42)  "42"
-  test "2d" (toDigits 987654321)  "987654321"
+  test "2a" (toDigits 0)    "0"
+  test "2b" (toDigits 7)    "7"
+  test "2c" (toDigits 42)  "42"
+  test "2d" (toDigits 987654321)  "987654321"
 
  
   test "3a" (count 'a' "hello") 0
