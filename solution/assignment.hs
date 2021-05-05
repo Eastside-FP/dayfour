@@ -49,18 +49,23 @@ count val (x:xs) =
 -- equals the sum of the numbers at odd indices. It 
 
 evensEqualOdds :: [ Integer ] -> Bool
+-- evensEqualOdds list =
+--     evens == odds 
+--     where
+--         ( evens, odds ) = getSums list
+--         getSums :: [ Integer ] -> ( Integer, Integer)
+--         getSums [] = ( 0, 0)
+--         getSums (x1 : x2 : xs) =
+--             ( t1 + x1, t2 + x2)
+--             where 
+--                 ( t1, t2 ) = getSums xs
+
 evensEqualOdds list =
-    evens == odds 
-    where
-        ( evens, odds ) = getSums list
-
-getSums :: [ Integer ] -> ( Integer, Integer)
-getSums [] = ( 0, 0)
-getSums (x1 : x2 : xs) =
-    ( t1 + x1, t2 + x2)
-    where 
-        ( t1, t2 ) = getSums xs
-
+  differenceOfPairs list == 0
+  where 
+    differenceOfPairs [] =  0
+    differenceOfPairs  [x] = x
+    differenceOfPairs (h1:h2:hs) = h1 - h2 + differenceOfPairs hs 
 -- the zipper function should take two equal length lists and
 -- combine corresponding elements from each into a tuple,
 -- so 
