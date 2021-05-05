@@ -10,7 +10,8 @@ import Data.Char(intToDigit)
 -- a positive integer
 
 factorial :: (Eq p, Num p) => p -> p
-factorial n = 0 -- replace me
+factorial 0 = 1
+factorial n = n * factorial (n-1) -- replace me
 
 
 -------
@@ -30,8 +31,13 @@ factorial n = 0 -- replace me
 --
 -- You may also need list concatenation, `++`.
 
+
 toDigits :: Int -> [Char]
-toDigits num = "replace me"
+-- todigits  ++ remainder
+toDigits num = 
+  if(num < 10 && num > -1)
+    then [intToDigit(num)]
+    else toDigits(fst(divMod num 10)) ++ [intToDigit(snd(divMod num 10))]
 
 
 -------
@@ -39,9 +45,13 @@ toDigits num = "replace me"
 -------
 -- Write a recursive function that counts the number of times
 -- a given value occurs in a list
-
 count :: (Eq a, Num p) => a -> [a] -> p
-count element list = 0 -- replace me
+count element [] = 0  
+count element (x:xs) = if(element==x)
+  then  
+    1 + count element xs
+  else
+    0  + count element xs 
 
 -------
 -- 4 --
@@ -53,7 +63,16 @@ count element list = 0 -- replace me
 -- need to traverse the list once)
 
 evensEqualOdds :: [ Integer ] -> Bool
-evensEqualOdds numbers = False -- replace me
+evensEqualOdds numbers = 
+  if(sumEvensMinusOdds numbers == 0)
+    then True
+    else False
+--simply add for every even and subtract for every odd
+
+sumEvensMinusOdds :: [ Integer ] -> Integer
+sumEvensMinusOdds [] = 0
+sumEvensMinusOdds (x:xs) = x-head xs + sumEvensMinusOdds (drop 1 xs) 
+
 
 -------
 -- 5 --
@@ -68,8 +87,8 @@ evensEqualOdds numbers = False -- replace me
 -- Implement `zipper` as a recursive function
 
 zipper :: [a] -> [b] -> [(a, b)]
-zipper l1 l2 = []  --replace me
-
+zipper [] [] = []
+zipper (x:xs) (l:ls) = [(x, l)] ++ zipper xs ls
 
 
 
@@ -94,7 +113,6 @@ main = do
   test "2b" (toDigits 7)    "7"
   test "2c" (toDigits 42)  "42"
   test "2d" (toDigits 987654321)  "987654321"
-
  
   test "3a" (count 'a' "hello") 0
   test "3b" (count 'h' "hello") 1
