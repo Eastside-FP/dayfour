@@ -10,8 +10,9 @@ import Data.Char(intToDigit)
 -- a positive integer
 
 factorial :: (Eq p, Num p) => p -> p
-factorial n = 0 -- replace me
-
+factorial 0 = 1       -- this stops it before zero? makes sense
+factorial n = n * factorial(n-1) -- replace me - ok buddy
+                          
 
 -------
 -- 2 --
@@ -30,19 +31,22 @@ factorial n = 0 -- replace me
 --
 -- You may also need list concatenation, `++`.
 
-toDigits :: Int -> [Char]
-toDigits num = "replace me"
-
-
+toDigits :: Int -> [Char] -- think of the base case
+toDigits 0 = []        -- is this a sufficent placeholder? Doesn't account for 0 tho          
+toDigits num = toDigits (result) ++ [intToDigit(remainder)] --building from ones to tens to hundreds...
+    where (result, remainder) = divMod num 10           --tried using fst and snd o selected the truncated Result or the remainder, but ran into errors, tried different approach
+                                                              -- and worked
 -------
--- 3 --
+-- 3 --s
 -------
 -- Write a recursive function that counts the number of times
 -- a given value occurs in a list
 
 count :: (Eq a, Num p) => a -> [a] -> p
-count element list = 0 -- replace me
-
+count element [] = 0 -- replace me | no
+count element list = fromEnum (elementn == element) + count element (tail list)  --From Enum should make the boolean an integer, I don't know why it is failing
+  where 
+    elementn = list !! 0
 -------
 -- 4 --
 -------
@@ -53,7 +57,17 @@ count element list = 0 -- replace me
 -- need to traverse the list once)
 
 evensEqualOdds :: [ Integer ] -> Bool
-evensEqualOdds numbers = False -- replace me
+evensEqualOdds numbers = sumlist numbers==((countodds numbers)*2) -- replace me -- divMod may come in handy
+
+countodds [] = 0
+countodds (x:xs) = fromEnum (remainder)*x+ countodds xs
+   where (result, remainder) = divMod x 2
+sumlist [] = 0
+sumlist (x:xs) = x+sumlist xs
+
+
+                          --unable to tell if this works because Enum is failing me, 
+                          -- also, I don't think this counts as one go so that's on me
 
 -------
 -- 5 --
@@ -68,13 +82,11 @@ evensEqualOdds numbers = False -- replace me
 -- Implement `zipper` as a recursive function
 
 zipper :: [a] -> [b] -> [(a, b)]
-zipper l1 l2 = []  --replace me
-
-
-
+zipper [] [] = []  --replace me
+zipper (l1:l1extra) (l2:l2extra) = (l1,l2):zipper l1extra l2extra -- colon takes and adds to beginning
 
 -----------------------------------
--- don't change below this point --
+-- don't change below this point -- ok
 
 test :: (Eq a, Show a) => [Char] -> a -> a -> IO ()
 test testNo got expected
